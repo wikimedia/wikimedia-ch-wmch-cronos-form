@@ -19,6 +19,9 @@
 // require some dummy functions
 require ABSPATH . '/include/functions.php';
 
+// require some dummy functions
+require ABSPATH . '/include/class-CronosHomepage.php';
+
 // MaterializeCSS
 // https://materializecss.com/
 register_js(  'materialize', 'static/materialize/js/materialize.min.js', 'footer' );
