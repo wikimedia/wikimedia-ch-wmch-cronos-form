@@ -176,7 +176,7 @@ class CronosHomepage {
 		if( !array_key_exists( $key, $this->post ) ) {
 
 			// technically it's possible to submit arrays (asd[]=1) so let's clean
-			if( is_string( $_POST[ $key ] ) ) {
+			if( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
 				$this->post[ $key ] = $_POST[ $key ];
 			}
 		}
@@ -314,6 +314,7 @@ class CronosHomepage {
 		$event_time_start = $this->getPOST( 'event_time_start' );
 		$event_time_end   = $this->getPOST( 'event_time_end' );
 		$event_url        = $this->getPOST( 'event_url' );
+		$event_category   = $this->getPOST( 'event_category' );
 
 		// no dates no party
 		if( empty( $event_date_start ) ) {
@@ -347,10 +348,11 @@ class CronosHomepage {
 		$template_event =
 			"\n" .
 			"{{Cronos event\n" .
-			"| title = $event_title\n" .
-			"| when  = $event_date_start $event_time_start\n" .
-			"| end   = $event_date_end $event_time_end\n" .
-			"| url   = $event_url\n" .
+			"|title    = $event_title\n" .
+			"|when     = $event_date_start $event_time_start\n" .
+			"|end      = $event_date_end $event_time_end\n" .
+			"|url      = $event_url\n" .
+			"|category = $event_category\n" .
 			"}}";
 
 		$text_create .= $template_event;
@@ -361,7 +363,7 @@ class CronosHomepage {
 			'createonly' => 1,
 			'format'     => 'json',
 			'title'      => $this->getEventsPageTitle(),
-			'summary'    => "New event: $event_title",
+			'summary'    => "New events page: $event_title",
 			'text'       => $text_create,
 			'token'      => $csrf_token,
 		] );

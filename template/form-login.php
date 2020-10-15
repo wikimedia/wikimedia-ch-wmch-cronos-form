@@ -25,7 +25,7 @@
 
 						<h2><?= __( "Create Event") ?></h2>
 
-						<p class="flow-text"><?= __( "Please login to create an Event.") ?></p>
+						<p class="flow-text"><?= __( "Please login to create a Cronos Event:" ) ?></p>
 						<button type="submit" class="btn-large waves-effect"><?= __( "Quick Login" ) ?></button>
 					</div>
 				</div>

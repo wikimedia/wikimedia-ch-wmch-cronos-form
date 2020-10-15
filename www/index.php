@@ -38,7 +38,7 @@ $page->printHeader();
 				<p><?= HTML::a(
 					$page->getEventsPageURL(),
 					$page->getEventsPageTitle(),
-					__( "Show on wiki" ),
+					__( "Show on wiki" )
 				) ?></p>
 
 				<p><?= __( "Thank you!" ) ?>
@@ -97,14 +97,14 @@ $page->printHeader();
 					<div class="col s12 m6 input-field">
 
 						<input type="text" name="event_date_start" id="event-date-start" class="datepicker" required="required" />
-						<label for="event-date-start"><?= __( "Start Date" ) ?></label>
+						<label for="event-date-start"><?= __( "Start Date" ) ?> *</label>
 
 					</div>
 
 					<div class="col s12 m6 input-field">
 
 						<input type="text" name="event_time_start" id="event-time-start" class="timepicker" required="required" />
-						<label for="event-time-start"><?= __( "Start Time" ) ?></label>
+						<label for="event-time-start"><?= __( "Start Time" ) ?> *</label>
 
 					</div>
 
@@ -123,7 +123,23 @@ $page->printHeader();
 					<div class="col s12 m6 input-field">
 
 						<input type="text" name="event_time_end" id="event-time-end" class="timepicker" required="required" />
-						<label for="event-time-end"><?= __( "End Time" ) ?></label>
+						<label for="event-time-end"><?= __( "End Time" ) ?> *</label>
+
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col s12 input-field">
+
+						<select name="event_category" id="event-category" class="icons" required="required">
+							<option value="" disabled selected><?= __( "Choose your option" ) ?></option>
+							<?php foreach( Category::all() as $category ): ?>
+								<option value="<?= $category->getUID() ?>" data-icon="<?= $category->getImageURL() ?>" class="left"><?= $category->getName() ?></option>
+							<?php endforeach ?>
+						</select>
+						<label for="event-category"><?= __( "Category" ) ?> *</label>
 
 					</div>
 
@@ -142,12 +158,14 @@ $page->printHeader();
 
 				<div class="row">
 
-					<div class="col s12 m6 input-field">
+					<div class="col s12 input-field">
 
-						<button type="submit" class="btn waves-effect"><?= __( "Save Event" ) ?></button>
 
 						<p><?= __( "Note: your edit will be published under the terms of Meta-wiki. Do not press if unsure." ) ?></p>
 
+						<p><button type="submit" class="btn-large waves-effect">
+							<?= __( "Save Event" ) ?></button>
+						</p>
 					</div>
 
 				</div>

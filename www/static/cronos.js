@@ -28,6 +28,12 @@
 				twelveHour: false,
 			} );
 		} )();
+
+		// initialize the select boxes
+		( function() {
+			var elems = document.querySelectorAll( 'select' );
+			var instances = M.FormSelect.init( elems );
+		} )();
 	} );
 
 } )();
