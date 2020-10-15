@@ -23,19 +23,18 @@
 define( 'OAUTH_CONSUMER_KEY', x'insert-here-key' );
 define( 'OAUTH_CONSUMER_SECRET', 'insert-here-secret' );
 
-// suckless-php information
-define( 'ABSPATH', __DIR__ );
+// relative URL of the homepage of the project
 define( 'ROOT', '/cronos' );
 
-// composer require mediawiki/oauthclient
-require '/my/path/to/oauthclient-php-vendor/autoload.php';
+// keep this as-is
+define( 'ABSPATH', __DIR__ );
 
-// load the boz-mw framework
-// https://gitpull.it/source/boz-mw/
-require '/my/path/to/boz-mw/autoload.php';
+// composer require mediawiki/oauthclient
+// https://gerrit.wikimedia.org/g/mediawiki/oauthclient-php
+require __DIR__ . '/../oauthclient-php/autoload.php';
 
 // load the suckless-php framework
 // https://gitpull.it/source/suckless-php/
-require '/my/path/to/suckless-php/load.php';
+require __DIR__ . '/../suckless-php/load.php';
 
 // at this point your load-post.php file will be automagically required
