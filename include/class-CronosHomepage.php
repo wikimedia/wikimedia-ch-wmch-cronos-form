@@ -315,10 +315,16 @@ class CronosHomepage {
 		$event_time_end   = $this->getPOST( 'event_time_end' );
 		$event_url        = $this->getPOST( 'event_url' );
 		$event_category   = $this->getPOST( 'event_category' );
+		$event_id         = $this->getPOST( 'event_id' );
 
 		// no dates no party
 		if( empty( $event_date_start ) ) {
 			throw new Exception( "missing date start" );
+		}
+
+		// just create a random identifier
+		if( !$event_id ) {
+			$event_id = uniqid();
 		}
 
 		// get the wiki CSRF token
@@ -353,6 +359,7 @@ class CronosHomepage {
 			"|end      = $event_date_end $event_time_end\n" .
 			"|url      = $event_url\n" .
 			"|category = $event_category\n" .
+			"|id       = $event_id\n".
 			"}}";
 
 		$text_create .= $template_event;
