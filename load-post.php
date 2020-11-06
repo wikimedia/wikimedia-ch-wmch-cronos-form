@@ -28,6 +28,9 @@ require ABSPATH . '/include/class-Category.php';
 register_js(  'materialize', 'static/materialize/js/materialize.min.js', 'footer' );
 register_css( 'materialize', 'static/materialize/css/materialize.min.css' );
 
+// material design icons
+register_css( 'material.icons', 'static/material-design-icons/material-icons.css' );
+
 // register JavaScript files
 register_js( 'cronos', 'static/cronos.js', 'footer', [
 	'materialize',

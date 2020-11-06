@@ -164,7 +164,8 @@ $page->printHeader();
 						<p><?= __( "Note: your edit will be published under the terms of Meta-wiki. Do not press if unsure." ) ?></p>
 
 						<p><button type="submit" class="btn-large waves-effect">
-							<?= __( "Save Event" ) ?></button>
+							<i class="material-icons right">save</i>
+							<?= __( "Save" ) ?></button>
 						</p>
 					</div>
 

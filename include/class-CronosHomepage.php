@@ -150,6 +150,7 @@ class CronosHomepage {
 	public function printHeader() {
 
 		enqueue_js( 'cronos' );
+		enqueue_css( 'material.icons' );
 
 		template( 'header' );
 
