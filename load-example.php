@@ -20,7 +20,7 @@
 
 // OAUTH stuff
 // See [[mw:Extension:OAuth]]
-define( 'OAUTH_CONSUMER_KEY', x'insert-here-key' );
+define( 'OAUTH_CONSUMER_KEY',    'insert-here-key' );
 define( 'OAUTH_CONSUMER_SECRET', 'insert-here-secret' );
 
 // relative URL of the homepage of the project
