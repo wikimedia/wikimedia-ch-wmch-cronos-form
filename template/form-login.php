@@ -21,7 +21,7 @@
 				<?php form_action( 'login' ) ?>
 
 				<div class="row">
-					<div class="col s12 m6 input-field">
+					<div class="col s12 input-field">
 
 						<h2><?= __( "Create Event") ?></h2>
 
