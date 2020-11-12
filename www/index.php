@@ -70,10 +70,18 @@ $page->printHeader();
 			 */
 			?>
 			<div class="card-panel">
-				<p class="flow-text"><?= sprintf(
-					__( "Welcome %s!" ),
-					esc_html( $page->getAnnouncedUsername() )
-				) ?></p>
+
+				<div class="row">
+					<div class="col s12 m10">
+						<p class="flow-text"><?= sprintf(
+							__( "Welcome %s!" ),
+							esc_html( $page->getAnnouncedUsername() )
+						) ?></p>
+					</div>
+					<div class="col s12 m2">
+						<p><a class="btn-flat waves-effect" href="<?= ROOT ?>/logout.php"><i class="material-icons right">exit_to_app</i><?= __( "Logout" ) ?></a></p>
+					</div>
+				</div>
 			</div>
 
 			<!-- start form create event -->

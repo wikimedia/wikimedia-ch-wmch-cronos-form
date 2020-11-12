@@ -14,20 +14,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// load the configuration file and autoload classes
+require 'load.php';
 
+$page = new CronosHomepage();
+
+// if logged-out, redirect to homepage
+if( !$page->getAnnouncedUsername() ) {
+	http_redirect( '' );
+}
+
+$page->printHeader();
 ?>
-		<div class="container">
+	<div class="container">
+		<h1>Wikimedia CH Cronos</h1>
 
-			<form method="post">
-
-				<?php form_action( 'logout' ) ?>
-
-				<p class="flow-text"><?= sprintf(
-					__( "Press the button below to logout from %s." ),
-					'Cronos'
-				) ?></p>
-
-				<p><button type="submit" class="btn waves-effect"><i class="material-icons left">exit_to_app</i><?= __( "Logout" ) ?></button></p>
-
-			</form>
+		<div class="card-panel">
+			<?php template( 'form-logout' ) ?>
 		</div>
+	</div>
+<?php
+
+$page->printFooter();
