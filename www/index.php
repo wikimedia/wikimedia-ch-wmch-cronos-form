@@ -143,7 +143,7 @@ $page->printHeader();
 						<select name="event_category" id="event-category" class="icons" required="required">
 							<option value="" disabled selected><?= __( "Choose your option" ) ?></option>
 							<?php foreach( Category::all() as $category ): ?>
-								<option value="<?= $category->getUID() ?>" data-icon="<?= $category->getImageURL() ?>" class="left"><?= $category->getName() ?></option>
+								<option value="<?= $category->getUID() ?>" data-icon="<?= $category->getImageURL() ?>" class="left"><?= esc_html( $category->getName() ) ?> (<?= esc_html( $category->getUID() ) ?>)</option>
 							<?php endforeach ?>
 						</select>
 						<label for="event-category"><?= __( "Category" ) ?> *</label>
