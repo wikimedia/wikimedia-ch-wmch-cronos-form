@@ -86,6 +86,7 @@ $page->printHeader();
 				<div class="row">
 					<div class="col s12 m6 input-field">
 
+						<i class="material-icons prefix">edit</i>
 						<input type="text" name="event_title" id="event-title" class="validate"<?= value( $page->getPOST( 'event_title' ) ) ?> />
 						<label for="event-title"><?= __( "Event Title" ) ?> *</label>
 
@@ -96,6 +97,8 @@ $page->printHeader();
 
 					<div class="col s12 m6 input-field">
 
+
+						<i class="material-icons prefix">event</i>
 						<input type="text" name="event_date_start" id="event-date-start" class="datepicker" required="required" />
 						<label for="event-date-start"><?= __( "Start Date" ) ?> *</label>
 
@@ -103,6 +106,7 @@ $page->printHeader();
 
 					<div class="col s12 m6 input-field">
 
+						<i class="material-icons prefix">access_time</i>
 						<input type="text" name="event_time_start" id="event-time-start" class="timepicker" required="required" />
 						<label for="event-time-start"><?= __( "Start Time" ) ?> *</label>
 
@@ -114,6 +118,7 @@ $page->printHeader();
 
 					<div class="col s12 m6 input-field">
 
+						<i class="material-icons prefix">event</i>
 						<input type="text" name="event_date_end" id="event-date-end" class="datepicker" />
 						<label for="event-date-end"><?= __( "End Date" ) ?></label>
 
@@ -122,6 +127,7 @@ $page->printHeader();
 
 					<div class="col s12 m6 input-field">
 
+						<i class="material-icons prefix">access_time</i>
 						<input type="text" name="event_time_end" id="event-time-end" class="timepicker" required="required" />
 						<label for="event-time-end"><?= __( "End Time" ) ?> *</label>
 
@@ -131,8 +137,9 @@ $page->printHeader();
 
 				<div class="row">
 
-					<div class="col s12 input-field">
+					<div class="col s12 m6 input-field">
 
+						<i class="material-icons prefix">label</i>
 						<select name="event_category" id="event-category" class="icons" required="required">
 							<option value="" disabled selected><?= __( "Choose your option" ) ?></option>
 							<?php foreach( Category::all() as $category ): ?>
@@ -149,7 +156,8 @@ $page->printHeader();
 
 					<div class="col s12 input-field">
 
-						<input type="text" placeholder="https://" name="event_url" id="event-url" />
+						<i class="material-icons prefix">insert_link</i>
+						<input type="text" placeholder="https://www.example.com/" name="event_url" id="event-url" />
 						<label for="event-url"><?= __( "External URL" ) ?></label>
 
 					</div>
@@ -161,7 +169,10 @@ $page->printHeader();
 					<div class="col s12 input-field">
 
 
-						<p><?= __( "Note: your edit will be published under the terms of Meta-wiki. Do not press if unsure." ) ?></p>
+						<p>
+							<i class="material-icons left">info</i>
+							<?= __( "Note: your edit will be published under the terms of Meta-wiki." ) ?>
+						</p>
 
 						<p><button type="submit" class="btn-large waves-effect">
 							<i class="material-icons right">save</i>
