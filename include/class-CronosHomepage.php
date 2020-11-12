@@ -171,15 +171,21 @@ class CronosHomepage {
 	 * @param string $key
 	 * @param string $default_value
 	 */
-	public function getPOST( $key, $default_value = null ) {
+	public function getUserData( $key, $default_value = null ) {
 
 		// eventually receive submitted data
 		if( !array_key_exists( $key, $this->post ) ) {
 
-			// technically it's possible to submit arrays (asd[]=1) so let's clean
-			if( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
-				$this->post[ $key ] = $_POST[ $key ];
+			// read from POST or from GET
+			$value = $_POST[ $key ] ?? $_GET[ $key ] ?? null;
+
+			if( $value ) {
+				// technically it's possible to submit arrays (asd[]=1) so let's clean and trim
+				$value = luser_input( $value, 254 );
 			}
+
+			// remember this
+			$this->post[ $key ] = $value;
 		}
 
 		return $this->post[ $key ] ?? $default_value;
@@ -309,14 +315,14 @@ class CronosHomepage {
 		// read POST-ed data
 		// assume that this data has sense (the user is logged-in and anyway he/she is just editing a page)
 		// in the worst of the cases, the event will be broken and a warning will be shown
-		$event_title      = $this->getPOST( 'event_title' );
-		$event_date_start = $this->getPOST( 'event_date_start' );
-		$event_date_end   = $this->getPOST( 'event_date_end' );
-		$event_time_start = $this->getPOST( 'event_time_start' );
-		$event_time_end   = $this->getPOST( 'event_time_end' );
-		$event_url        = $this->getPOST( 'event_url' );
-		$event_category   = $this->getPOST( 'event_category' );
-		$event_id         = $this->getPOST( 'event_id' );
+		$event_title      = $this->getUserData( 'event_title' );
+		$event_date_start = $this->getUserData( 'event_date_start' );
+		$event_date_end   = $this->getUserData( 'event_date_end' );
+		$event_time_start = $this->getUserData( 'event_time_start' );
+		$event_time_end   = $this->getUserData( 'event_time_end' );
+		$event_url        = $this->getUserData( 'event_url' );
+		$event_category   = $this->getUserData( 'event_category' );
+		$event_id         = $this->getUserData( 'event_id' );
 
 		// no dates no party
 		if( empty( $event_date_start ) ) {

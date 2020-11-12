@@ -87,7 +87,7 @@ $page->printHeader();
 					<div class="col s12 m6 input-field">
 
 						<i class="material-icons prefix">edit</i>
-						<input type="text" name="event_title" id="event-title" class="validate"<?= value( $page->getPOST( 'event_title' ) ) ?> />
+						<input type="text" name="event_title" id="event-title" class="validate"<?= value( $page->getUserData( 'event_title' ) ) ?> />
 						<label for="event-title"><?= __( "Event Title" ) ?> *</label>
 
 					</div>
