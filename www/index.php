@@ -22,7 +22,7 @@ $page = new CronosHomepage();
 $page->printHeader();
 ?>
 	<div class="container">
-		<h1>Wikimedia CH Cronos</h1>
+		<h1>Cronos Calendar</h1>
 
 		<?php /* check if the user has saved the page */ ?>
 		<?php if( $page->isEventsPageTitleKnown() ): ?>

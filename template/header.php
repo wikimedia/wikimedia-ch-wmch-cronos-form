@@ -17,7 +17,7 @@
 ?>
 <!DOCTYPE html>
 <head>
-	<title>Wikimedia CH Cronos</title>
+	<title>Cronos Calendar</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
