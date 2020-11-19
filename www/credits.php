@@ -37,19 +37,23 @@ template( 'header' );
 
 		<div class="card-panel">
 			<h3><?= __( "Nerd stuff" ) ?></h3>
-			<p><?= __( "This block of information can be used inside your wiki to inherit these official categories. Ignore this part if you are not truly nerd to avoid brain explosion." ) ?></p>
-			<pre><?php
+			<p><?= __( "This block of information can be used inside your wiki to inherit these official categories. Ignore this part if you are not a truly nerd, to avoid brain explosion." ) ?></p>
+			<textarea class="materialize-textarea"><?php
+
+				echo "local CRONOS_CATEGORIES = {\n";
+
 				// print some Lua code
 				foreach( Category::all() as $category ) {
 					printf(
-						"['%1\$s'] = { uid: '%1\$s', name: '%2\$s', filename: 'File:%3\$s' },\n",
+						"\t['%1\$s'] = { uid = '%1\$s', name = '%2\$s', filename = 'File:%3\$s' },\n",
 						$category->getUID(),
 						$category->getName(),
 						$category->getFilename()
 					);
 				}
 
-			?></pre>
+				echo "}";
+			?></textarea>
 		</div>
 
 		<div class="divider"></div>
