@@ -107,7 +107,7 @@ $page->printHeader();
 
 
 						<i class="material-icons prefix">event</i>
-						<input type="text" name="event_date_start" id="event-date-start" class="datepicker" required="required" />
+						<input type="text" name="event_date_start" id="event-date-start" class="datepicker" required="required"<?= value( $page->getDateYMD() ) ?> />
 						<label for="event-date-start"><?= __( "Start Date" ) ?> *</label>
 
 					</div>

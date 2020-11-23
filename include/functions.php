@@ -44,3 +44,36 @@ function template( $template_name, $template_args = [] ) {
 	extract( $template_args, EXTR_SKIP );
 	return require ABSPATH . "/template/$template_name.php";
 }
+
+/**
+ * Parse a date
+ *
+ * @param string Y-m-d
+ * @return array if valid, NULL if missing, false if not valid
+ */
+function parse_ymd( $date_raw ) {
+
+	$date = null;
+
+	// must has sense
+	if( $date_raw && is_string( $date_raw ) ) {
+
+		// try to parse the 'Y-m-d' date
+		$parts = explode( '-', $date_raw );
+		if( count( $parts ) === 3 ) {
+			list( $y, $m, $d ) = $parts;
+
+			// must be a valid date
+			if( checkdate( $m, $d, $y ) ) {
+				$date = $parts;
+			}
+		}
+
+		// invalidate
+		if( !$date ) {
+			$date = false;
+		}
+	}
+
+	return $date;
+}

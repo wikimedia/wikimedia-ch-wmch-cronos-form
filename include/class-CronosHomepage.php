@@ -33,6 +33,7 @@ define( 'COOKIE_OAUTH_ACCESS_TOKEN_SECRET',  'oa_accsstk_secret' );
 define( 'COOKIE_OAUTH_ACCESS_NONCE',         'oa_accss_nnc'      );
 define( 'COOKIE_WIKI_USERNAME',              'wiki_user'         );
 define( 'COOKIE_WIKI_CSRF',                  'wiki_csrf'         );
+define( 'COOKIE_CRONOS_DATE_START',          'event_date_start'  );
 
 class CronosHomepage {
 
@@ -192,6 +193,28 @@ class CronosHomepage {
 	}
 
 	/**
+	 * Get the raw date
+	 *
+	 * This date can be received from GET or from the first visit before OAUTH login.
+	 *
+	 * This method always return a valid date.
+	 *
+	 * @return string
+	 */
+	public function getDateYMD() {
+
+		// retrieve from GET or from a cookie
+		$ymd_date = $_GET['event_date_start'] ?? $_COOKIE[ COOKIE_CRONOS_DATE_START ] ?? null;
+
+		// it must be valid
+		if( !parse_ymd( $ymd_date ) ) {
+			$ymd_date = false;
+		}
+
+		return $ymd_date;
+	}
+
+	/**
 	 * Forget this OAuth session
 	 */
 	private function logout() {
@@ -204,6 +227,7 @@ class CronosHomepage {
 		my_unset_cookie( COOKIE_OAUTH_ACCESS_NONCE );
 		my_unset_cookie( COOKIE_WIKI_USERNAME );
 		my_unset_cookie( COOKIE_WIKI_CSRF );
+		my_unset_cookie( COOKIE_CRONOS_DATE_START );
 
 		// POST -> redirect -> GET
 		http_redirect( '' );
@@ -221,11 +245,18 @@ class CronosHomepage {
 		my_set_cookie( COOKIE_OAUTH_REQUEST_TOKEN_KEY,    $request_token->key    );
 		my_set_cookie( COOKIE_OAUTH_REQUEST_TOKEN_SECRET, $request_token->secret );
 
+		// if the user is providing a date, remember it
+		$date = $_GET['event_date_start'] ?? null;
+
+		// validate the date before storing in a cookie
+		if( $date && parse_ymd( $date ) ) {
+			my_set_cookie( COOKIE_CRONOS_DATE_START, $date );
+		}
+
 		// here we go!
 		http_redirect( $auth_url );
 
 	}
-
 
 	/**
 	 * Receive the OAuth response and redirect to the homepage again
@@ -340,8 +371,9 @@ class CronosHomepage {
 			throw new Exception( "missing CSRF token from session" );
 		}
 
-		// this is the page that will host the event infobox
-		$this->eventsPageTitle = "Meta:Cronos/Events/$event_date_start";
+		// TODO: do not trust this date
+		// even if... if you try to send spam to Meta-wiki, you will be banneed :^)
+		$this->setEventsPageTitleByDateRaw( $event_date_start );
 
 		// split date in parts
 		$event_date_start_parts = explode( '-', $event_date_start );
@@ -412,6 +444,16 @@ class CronosHomepage {
 
 			}
 		}
+	}
+
+	/**
+	 * Set the Events page title by the raw Y-m-d date
+	 *
+	 * @param string $event_date_start_ymd
+	 */
+	private function setEventsPageTitleByDateRaw( $event_date_start_ymd ) {
+		// this is the page that will host the event infobox
+		$this->eventsPageTitle = "Meta:Cronos/Events/$event_date_start_ymd";
 	}
 
 	/**
