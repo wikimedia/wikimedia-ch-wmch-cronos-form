@@ -118,14 +118,38 @@ class CronosHomepage {
 		}
 	}
 
-	public function isEventsPageTitleKnown() {
-		return isset( $this->eventsPageTitle );
-	}
-
+	/**
+	 * Get the events page title
+	 *
+	 * @return string
+	 */
 	public function getEventsPageTitle() {
+
+		// eventually inherit the title
+		if( !$this->eventsPageTitle ) {
+			$date = $this->getDateYMD();
+			if( $date ) {
+				$this->setEventsPageTitleByDateRaw( $date );
+			}
+		}
+
 		return $this->eventsPageTitle;
 	}
 
+	/**
+	 * Check if the events page title is knoen
+	 *
+	 * @return boolean
+	 */
+	public function isEventsPageTitleKnown() {
+		return $this->getEventsPageTitle() !== null;
+	}
+
+	/**
+	 * Get the Events page URL
+	 *
+	 * @return string
+	 */
 	public function getEventsPageURL() {
 		return sprintf(
 			'https://meta.wikimedia.org/wiki/%s',
@@ -133,8 +157,13 @@ class CronosHomepage {
 		);
 	}
 
+	/**
+	 * Check if you should see the saved message
+	 *
+	 * @return boolean
+	 */
 	public function hasSaved() {
-		return $this->saved;
+		return $this->saved || isset( $_GET['saved'] );
 	}
 
 	public function isUserUnknown() {
@@ -362,7 +391,7 @@ class CronosHomepage {
 
 		// just create a random identifier
 		if( !$event_id ) {
-			$event_id = uniqid();
+			$event_id = 'cronos-' . uniqid();
 		}
 
 		// get the wiki CSRF token
@@ -371,16 +400,20 @@ class CronosHomepage {
 			throw new Exception( "missing CSRF token from session" );
 		}
 
-		// TODO: do not trust this date
-		// even if... if you try to send spam to Meta-wiki, you will be banneed :^)
-		$this->setEventsPageTitleByDateRaw( $event_date_start );
-
-		// split date in parts
-		$event_date_start_parts = explode( '-', $event_date_start );
-		if( count( $event_date_start_parts ) !== 3 ) {
+		// validate the date
+		$event_date_start_parts = parse_ymd( $event_date_start );
+		if( !$event_date_start_parts ) {
 			throw new Exception( "bad start date" );
 		}
+
+		// split date in parts
 		list( $start_y, $start_m, $start_d ) = $event_date_start_parts;
+
+		// remember this date
+		$this->setEventsPageTitleByDateRaw( $event_date_start );
+
+		// remember this last date
+		my_set_cookie( COOKIE_CRONOS_DATE_START, $event_date_start );
 
 		// text of the page
 		$text_create = sprintf(
@@ -390,12 +423,15 @@ class CronosHomepage {
 			$start_d
 		);
 
+		// Cronos event end argument with date (optional) and time
+		$end_argument = trim( "$event_date_end $event_time_end" );
+
 		$template_event =
 			"\n" .
 			"{{Cronos event\n" .
 			"|title    = $event_title\n" .
 			"|when     = $event_date_start $event_time_start\n" .
-			"|end      = $event_date_end $event_time_end\n" .
+			"|end      = $end_argument\n" .
 			"|url      = $event_url\n" .
 			"|category = $event_category\n" .
 			"|id       = $event_id\n".
@@ -443,6 +479,19 @@ class CronosHomepage {
 				throw new Exception( $error_code );
 
 			}
+		}
+
+		if( $this->saved ) {
+
+			// do a POST->redirect->GET in case of success
+			http_redirect( http_build_get_query( '', [
+				'event_date_start' => $event_date_start,
+				'saved' => 1,
+			] ) );
+		} else {
+
+			// TODO:
+			// do a POST->redirect->GET somehow telling the error
 		}
 	}
 

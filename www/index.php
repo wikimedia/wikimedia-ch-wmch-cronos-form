@@ -25,7 +25,7 @@ $page->printHeader();
 		<h1>Cronos Calendar</h1>
 
 		<?php /* check if the user has saved the page */ ?>
-		<?php if( $page->isEventsPageTitleKnown() ): ?>
+		<?php if( $page->isEventsPageTitleKnown() && $page->hasSaved() ): ?>
 
 			<div class="card-panel green">
 
@@ -33,15 +33,14 @@ $page->printHeader();
 					<h2><?= __( "Success!" ) ?></h2>
 				<?php endif ?>
 
-				<p class="flow-text"><?= __( "See/Edit your Event:" ) ?></p>
+				<p class="flow-text"><?= __( "See your Event:" ) ?></p>
 
-				<p><?= HTML::a(
+				<p class="flow-text"><?= HTML::a(
 					$page->getEventsPageURL(),
-					$page->getEventsPageTitle(),
-					__( "Show on wiki" )
+					__( "See Event" ),
+					__( "Show on wiki" ),
+					'btn waves-effect'
 				) ?></p>
-
-				<p><?= __( "Thank you!" ) ?>
 			</div>
 
 		<?php endif ?>
