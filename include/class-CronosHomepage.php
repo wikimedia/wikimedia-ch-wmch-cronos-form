@@ -382,6 +382,7 @@ class CronosHomepage {
 		$event_time_end   = $this->getUserData( 'event_time_end' );
 		$event_url        = $this->getUserData( 'event_url' );
 		$event_category   = $this->getUserData( 'event_category' );
+		$event_tags       = $this->getUserData( 'event_tags' );
 		$event_id         = $this->getUserData( 'event_id' );
 
 		// no dates no party
@@ -434,6 +435,7 @@ class CronosHomepage {
 			"|end      = $end_argument\n" .
 			"|url      = $event_url\n" .
 			"|category = $event_category\n" .
+			"|tags     = $event_tags\n" .
 			"|id       = $event_id\n".
 			"}}";
 

@@ -84,7 +84,7 @@ $page->printHeader();
 			</div>
 
 			<!-- start form create event -->
-			<form method="post" class="card-panel">
+			<form method="post" class="card-panel" id="cronos-add-event-form">
 
 				<h2><?= __( "Create Event" ) ?></h2>
 
@@ -146,11 +146,11 @@ $page->printHeader();
 
 					<div class="col s12 m6 input-field">
 
-						<i class="material-icons prefix">label</i>
+						<i class="material-icons prefix">folder_open</i>
 						<select name="event_category" id="event-category" class="icons" required="required">
 							<option value="" disabled selected><?= __( "Choose your option" ) ?></option>
 							<?php foreach( Category::all() as $category ): ?>
-								<option value="<?= $category->getUID() ?>" data-icon="<?= $category->getImageURL() ?>" class="left"><?= esc_html( $category->getName() ) ?> (<?= esc_html( $category->getUID() ) ?>)</option>
+								<option<?= value( $category->getUID() ) ?> data-icon="<?= esc_attr( $category->getImageURL() ) ?>" class="left"><?= esc_html( $category->getName() ) ?> (<?= esc_html( $category->getUID() ) ?>)</option>
 							<?php endforeach ?>
 						</select>
 						<label for="event-category"><?= __( "Category" ) ?> *</label>
@@ -173,8 +173,21 @@ $page->printHeader();
 
 				<div class="row">
 
-					<div class="col s12 input-field">
+					<div class="col s12 m6 offset-m6">
 
+						<p>
+							<i class="material-icons prefix">label_outline</i>
+							<?= __( "Optional list of Tags. Type and press enter:" ) ?>
+						</p>
+						<div class="chips" id="cronos-tag-picker"></div>
+
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col s12">
 
 						<p>
 							<i class="material-icons left">info</i>
