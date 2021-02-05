@@ -1,5 +1,5 @@
 <?php
-# Copyright (C) 2020 Valerio Bozzolan
+# Copyright (C) 2020, 2021 Valerio Bozzolan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -127,7 +127,7 @@ $page->printHeader();
 
 						<i class="material-icons prefix">event</i>
 						<input type="text" name="event_date_end" id="event-date-end" class="datepicker" />
-						<label for="event-date-end"><?= __( "End Date" ) ?></label>
+						<label for="event-date-end"><?= __( "Optional End Date" ) ?></label>
 
 					</div>
 
@@ -160,31 +160,46 @@ $page->printHeader();
 				</div>
 
 				<div class="row">
+					<div class="col s12 m6 input-field">
+
+						<i class="material-icons prefix">location_on</i>
+						<input type="text" name="event_where" id="event-where"<?= value( $page->getUserData( 'event_where' ) ) ?> />
+						<label for="event-where"><?= __( "Where" ) ?></label>
+
+					</div>
+				</div>
+
+				<!-- start description -->
+				<div class="row">
 
 					<div class="col s12 input-field">
 
-						<i class="material-icons prefix">insert_link</i>
-						<input type="text" placeholder="https://www.example.com/" name="event_url" id="event-url" />
-						<label for="event-url"><?= __( "External URL" ) ?></label>
+						<i class="material-icons prefix">edit</i>
+						<textarea name="event_abstract" id="event-abstract" class="materialize-textarea"></textarea>
+						<label for="event-abstract"><?= __( "Optional description / abstract" ) ?></label>
 
 					</div>
 
 				</div>
+				<!-- end description -->
 
+				<!-- start Tag picker -->
 				<div class="row">
 
 					<div class="col s12 m6 offset-m6">
 
 						<p>
 							<i class="material-icons prefix">label_outline</i>
-							<?= __( "Optional list of Tags. Type and press enter:" ) ?>
+							<?= __( "Do you want some Tags? Type and press enter:" ) ?>
 						</p>
 						<div class="chips" id="cronos-tag-picker"></div>
 
 					</div>
 
 				</div>
+				<!-- stop Tag picker -->
 
+				<!-- start save button -->
 				<div class="row">
 
 					<div class="col s12">
@@ -201,6 +216,7 @@ $page->printHeader();
 					</div>
 
 				</div>
+				<!-- stop save button -->
 
 			</form>
 			<!-- end form create event -->

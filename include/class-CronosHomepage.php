@@ -1,5 +1,5 @@
 <?php
-# Copyright (C) 2020 Valerio Bozzolan
+# Copyright (C) 2020, 2021 Valerio Bozzolan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -381,6 +381,8 @@ class CronosHomepage {
 		$event_time_start = $this->getUserData( 'event_time_start' );
 		$event_time_end   = $this->getUserData( 'event_time_end' );
 		$event_url        = $this->getUserData( 'event_url' );
+		$event_where      = $this->getUserData( 'event_where' );
+		$event_abstract   = $this->getUserData( 'event_abstract' );
 		$event_category   = $this->getUserData( 'event_category' );
 		$event_tags       = $this->getUserData( 'event_tags' );
 		$event_id         = $this->getUserData( 'event_id' );
@@ -433,10 +435,12 @@ class CronosHomepage {
 			"|title    = $event_title\n" .
 			"|when     = $event_date_start $event_time_start\n" .
 			"|end      = $end_argument\n" .
+			"|where    = $event_where\n" .
 			"|url      = $event_url\n" .
 			"|category = $event_category\n" .
 			"|tags     = $event_tags\n" .
 			"|id       = $event_id\n".
+			"|abstract = $event_abstract\n".
 			"}}";
 
 		$text_create .= $template_event;
