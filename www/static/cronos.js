@@ -18,6 +18,23 @@
  */
 ( function() {
 
+	/**
+	 * Allow to prefill Cronos with some Tags
+	 *
+	 * This variable is exposed by this class:
+	 *   include/class-CronosHomepage.php
+	 *
+	 * https://phabricator.wikimedia.org/T273859
+	 */
+	var prefillTags = window.CRONOS_PREFILL_TAGS;
+
+	/**
+	 * Dummy way to add an hidden input field to a form
+	 *
+	 * @param object form
+	 * @param String name
+	 * @param String value
+	 */
 	function addHiddenInput( form, name, value ) {
 		var input = document.createElement( 'input' );
 		input.type = 'hidden';
@@ -55,6 +72,23 @@
 				};
 			}
 		} )();
+
+		/**
+		 * Allow to prefill Cronos with some Tags
+		 *
+		 * https://phabricator.wikimedia.org/T273859
+		 */
+		if( prefillTags ) {
+
+			// for each Tag to be prefilled
+			for( var i = 0; i < prefillTags.length; i++ ) {
+
+				// add a Chip
+				tagPicker.addChip( {
+					tag: prefillTags[i],
+				} );
+			}
+		}
 
 		// initialize time pickers
 		( function() {

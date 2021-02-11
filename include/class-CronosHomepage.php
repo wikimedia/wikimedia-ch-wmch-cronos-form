@@ -34,8 +34,23 @@ define( 'COOKIE_OAUTH_ACCESS_NONCE',         'oa_accss_nnc'      );
 define( 'COOKIE_WIKI_USERNAME',              'wiki_user'         );
 define( 'COOKIE_WIKI_CSRF',                  'wiki_csrf'         );
 define( 'COOKIE_CRONOS_DATE_START',          'event_date_start'  );
+define( 'COOKIE_CRONOS_TAGS',                'event_tags'        );
 
 class CronosHomepage {
+
+	/**
+	 * Hard limit for the length of each Tag to be received from HTTP GET
+	 *
+	 * Note that Tags may be saved in your cookies.
+	 */
+	const HARD_LIMIT_TAG_LEN = 128;
+
+	/**
+	 * Hard limit for the max number of Tags to be received from HTTP GET
+	 *
+	 * Note that Tags may be saved in your cookies.
+	 */
+	const HARD_LIMIT_TAG_COUNT = 16;
 
 	/**
 	 * Check if the user has submitted the form
@@ -83,8 +98,6 @@ class CronosHomepage {
 		// Wikimedia Commons API
 		// see boz-mw
 		$commons = MediaWikis::findFromUID( 'commonswiki' );
-
-		$events_page_title = null;
 
 		// Phase 1
 		// check if the user submitted the login form and have to be redirected to the remote OAuth login form
@@ -166,10 +179,20 @@ class CronosHomepage {
 		return $this->saved || isset( $_GET['saved'] );
 	}
 
+	/**
+	 * Check if the user is not logged in
+	 *
+	 * @return boolean
+	 */
 	public function isUserUnknown() {
 		return empty( $_COOKIE[ COOKIE_WIKI_USERNAME ] );
 	}
 
+	/**
+	 * Check if we know the username
+	 *
+	 * @return string|null
+	 */
 	public function getAnnouncedUsername() {
 		return $_COOKIE[ COOKIE_WIKI_USERNAME ] ?? null;
 	}
@@ -179,9 +202,14 @@ class CronosHomepage {
 	 */
 	public function printHeader() {
 
+		// eventually exposes some JavaScript variables
+		$this->exposeJavaScriptVariables();
+
 		enqueue_js( 'cronos' );
+
 		enqueue_css( 'material.icons' );
 
+		// print template/header.php
 		template( 'header' );
 
 	}
@@ -191,6 +219,7 @@ class CronosHomepage {
 	 */
 	public function printFooter() {
 
+		// print template/footer.php
 		template( 'footer' );
 
 	}
@@ -222,6 +251,25 @@ class CronosHomepage {
 	}
 
 	/**
+	 * Get an array of user Tags
+	 *
+	 * @return array
+	 */
+	public function getUserTags() {
+
+		// get a string with comma-separated Tags
+		$tags_raw = $this->getUserData( 'event_tags' );
+
+		// eventually inherit from session
+		if( !$tags_raw ) {
+			$tags_raw = $_COOKIE[ COOKIE_CRONOS_TAGS ] ?? null;
+		}
+
+		// convert the string to an array
+		return self::str_2_tags( $tags_raw );
+	}
+
+	/**
 	 * Get the raw date
 	 *
 	 * This date can be received from GET or from the first visit before OAUTH login.
@@ -244,11 +292,20 @@ class CronosHomepage {
 	}
 
 	/**
+	 * Eventually exposes some variables to JavaScript
+	 */
+	private function exposeJavaScriptVariables() {
+
+		// make the Tags visible to the cronos.js script
+		register_js_var( 'cronos', 'window.CRONOS_PREFILL_TAGS', $this->getUserTags() );
+	}
+
+	/**
 	 * Forget this OAuth session
 	 */
 	private function logout() {
 
-		// clear all cookies
+		// clear all known cookies
 		my_unset_cookie( COOKIE_OAUTH_REQUEST_TOKEN_KEY );
 		my_unset_cookie( COOKIE_OAUTH_REQUEST_TOKEN_SECRET );
 		my_unset_cookie( COOKIE_OAUTH_ACCESS_TOKEN_KEY );
@@ -257,6 +314,7 @@ class CronosHomepage {
 		my_unset_cookie( COOKIE_WIKI_USERNAME );
 		my_unset_cookie( COOKIE_WIKI_CSRF );
 		my_unset_cookie( COOKIE_CRONOS_DATE_START );
+		my_unset_cookie( COOKIE_CRONOS_TAGS );
 
 		// POST -> redirect -> GET
 		http_redirect( '' );
@@ -264,6 +322,14 @@ class CronosHomepage {
 
 	/**
 	 * Redirect to the OAuth login page
+	 *
+	 * Note that when the user is sent to the OAuth login
+	 * then the query string is lost.
+	 *
+	 * Actually we want a stateless application so we do
+	 * not rely on session().
+	 *
+	 * Anyway storing stuff in a cookie is easy, so we do that.
 	 */
 	private function tryOAuthLogin() {
 
@@ -274,6 +340,41 @@ class CronosHomepage {
 		my_set_cookie( COOKIE_OAUTH_REQUEST_TOKEN_KEY,    $request_token->key    );
 		my_set_cookie( COOKIE_OAUTH_REQUEST_TOKEN_SECRET, $request_token->secret );
 
+		// try to persist the query string before redirecting the user to the OAUTH
+		$this->persistQueryStringInSession();
+
+		// here we go!
+		http_redirect( $auth_url );
+
+	}
+
+	/**
+	 * Try to persist the query string in the session
+	 *
+	 * This is useful before redirecting the user to
+	 * another page, to get the information back.
+	 *
+	 * This method is called only by #tryOAuthLogin()
+	 */
+	private function persistQueryStringInSession() {
+
+		// persist Date provided in query string
+		$this->persistQueryStringInSessionDate();
+
+		// persist Tags provided in query string
+		$this->persistQueryStringInSessionTags();
+	}
+
+	/**
+	 * Persist the Date provided in query string
+	 *
+	 * This is useful before redirecting the user to
+	 * another page, to get the information back.
+	 *
+	 * This method is called only by #persistQueryStringInSession()
+	 */
+	private function persistQueryStringInSessionDate() {
+
 		// if the user is providing a date, remember it
 		$date = $_GET['event_date_start'] ?? null;
 
@@ -281,11 +382,37 @@ class CronosHomepage {
 		if( $date && parse_ymd( $date ) ) {
 			my_set_cookie( COOKIE_CRONOS_DATE_START, $date );
 		}
-
-		// here we go!
-		http_redirect( $auth_url );
-
 	}
+
+	/**
+	 * Persist the Tags provided in query string
+	 *
+	 * This is useful before redirecting the user to
+	 * another page, to get the information back.
+	 *
+	 * This method is called only by #persistQueryStringInSession()
+	 */
+	private function persistQueryStringInSessionTags() {
+
+		// if the user is providing some tags
+		$tags_raw = $_GET['tags'] ?? null;
+
+		// validate the Tags before storing them in a cookie
+		if( $tags_raw ) {
+
+			// filter invalid tags
+			$tags = self::str_2_tags( $tags_raw );
+
+			// rebuild again
+			$tags_raw_clean = self::tags_2_str( $tags );
+
+			// save these damn sanitized Tags
+			if( $tags_raw_clean ) {
+				my_set_cookie( COOKIE_CRONOS_TAGS, $tags_raw_clean );
+			}
+		}
+	}
+
 
 	/**
 	 * Receive the OAuth response and redirect to the homepage again
@@ -532,6 +659,68 @@ class CronosHomepage {
 		}
 
 		return $response;
+
+	}
+
+	/**
+	 * Parse a string of tags comma-separated
+	 *
+	 * @param string $tags
+	 * @return array
+	 */
+	private static function str_2_tags( $tags_raw ) {
+
+		$good_tags = [];
+
+		// discard rubbish
+		if( is_string( $tags_raw ) ) {
+
+			// make an array from a comma-separated string
+			$tags = explode( ',', $tags_raw, self::HARD_LIMIT_TAG_COUNT );
+
+			// validate each Tag
+			foreach( $tags as $tag ) {
+
+				// remove whitespaces before/after Tag name
+				$tag = trim( $tag );
+
+				// discard empty Tags
+				if( $tag ) {
+
+					$len = strlen( $tag );
+
+					//  discard nonsense Tags
+					if( $len <= self::HARD_LIMIT_TAG_LEN ) {
+						$good_tags[] = $tag;
+					} else {
+						error_log( sprintf(
+							"dropped Tag longer than %d chars",
+							$len
+						) );
+					}
+
+				}
+
+			}
+		}
+
+		// eventualy strip unuseful duplicates
+		if( $good_tags ) {
+			$good_tags = array_unique( $good_tags );
+		}
+
+		return $good_tags;
+	}
+
+	/**
+	 * Make an array of Tags flat
+	 *
+	 * @param array $tags
+	 * @return string
+	 */
+	private static function tags_2_str( $tags ) {
+
+		return implode( ',', $tags );
 
 	}
 }
