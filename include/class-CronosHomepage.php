@@ -202,6 +202,10 @@ class CronosHomepage {
 	 */
 	public function printHeader() {
 
+		// the page contains a form
+		// prevent CSRF attacks
+		require_csrf();
+
 		// eventually exposes some JavaScript variables
 		$this->exposeJavaScriptVariables();
 
