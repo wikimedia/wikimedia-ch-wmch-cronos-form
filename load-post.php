@@ -44,8 +44,9 @@ Category::addInitiatives( 'libre',  __( "Free Software and Open Source" ), 'Heck
 Category::add(            'osm',      "OpenStreetMap",                     'Openstreetmap logo.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/%dpx-Openstreetmap_logo.svg.png' );
 Category::add(            'glam',   __( "Wikimedia GLAM Program" ),        'GLAM logo.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GLAM_logo.png/%dpx-GLAM_logo.png' );
 Category::addInitiatives( 'wmch',   __( "Wikimedia CH" ),                  'WikimediaCHLogo.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/WikimediaCHLogo.svg/%dpx-WikimediaCHLogo.svg.png' );
-Category::addInitiatives( 'wmf',    __( "Wikimedia Foundation" ),          'Wikimedia-logo black.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Wikimedia-logo_black.svg/%dpx-Wikimedia-logo_black.svg.png' );
 Category::addInitiatives( 'wbg',    __( "West Bengal Wikimedians" ),       'Logo of West Bengal Wikimedians User Group.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/West_Bengal_Wikimedians_User_Group_logo_square.svg/%dpx-West_Bengal_Wikimedians_User_Group_logo_square.svg.png' );
+Category::addInitiatives( 'wmno',   __( "Wikimedia Norge initiatives" ),   'File:Wikimedia Norge-logo svart nb.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Wikimedia_Norge-logo_nn.svg/%dpx-Wikimedia_Norge-logo_nn.svg.png' );
+Category::addInitiatives( 'wmf',    __( "Wikimedia Foundation" ),          'Wikimedia-logo black.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Wikimedia-logo_black.svg/%dpx-Wikimedia-logo_black.svg.png' );
 
 // this should be an alias of libre
 // Category::addInitiatives( 'osi',  __( "Open Source" ),                 'Opensource.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/%dpx-Opensource.svg.png' );
