@@ -1,5 +1,5 @@
 <?php
-# Copyright (C) 2020 Valerio Bozzolan
+# Copyright (C) 2020, 2021 Valerio Bozzolan
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+header( 'Content-Type: text/html; charset=utf-8' );
 
 ?>
 <!DOCTYPE html>
