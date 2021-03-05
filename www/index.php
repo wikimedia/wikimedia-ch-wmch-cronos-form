@@ -159,6 +159,7 @@ $page->printHeader();
 
 				</div>
 
+				<!-- start location -->
 				<div class="row">
 					<div class="col s12 m6 input-field">
 
@@ -168,6 +169,19 @@ $page->printHeader();
 
 					</div>
 				</div>
+				<!-- start location -->
+
+				<!-- start link -->
+				<div class="row">
+					<div class="col s12 m6 input-field">
+
+						<i class="material-icons prefix">insert_link</i>
+						<input type="text" name="event_url" id="event-url"<?= value( $page->getUserData( 'event_url' ) ) ?> />
+						<label for="event-url"><?= __( "URL" ) ?></label>
+
+					</div>
+				</div>
+				<!-- end link -->
 
 				<!-- start description -->
 				<div class="row">
