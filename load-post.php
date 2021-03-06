@@ -36,17 +36,20 @@ register_js( 'cronos', 'static/cronos.js', 'footer', [
 	'materialize',
 ] );
 
+// register CSS files
+register_css( 'cronos', 'static/cronos.css' );
+
 // register some dummy categories in order of appearance
-Category::addInitiatives( 'com',    __( "Community" ),                     'Wikimedia Community Logo.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wikimedia_Community_Logo.svg/%dpx-Wikimedia_Community_Logo.svg.png' );
-Category::addInitiatives( 'dat',    __( "Wikidata" ),                      'Wikidata Favicon color.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Wikidata_Favicon_color.svg/%spx-Wikidata_Favicon_color.svg.png' );
-Category::add(            'edu',    __( "Wikimedia Education Program" ),   'WikipediaEduBelow.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/WikipediaEduBelow.svg/%dpx-WikipediaEduBelow.svg.png' );
-Category::addInitiatives( 'libre',  __( "Free Software and Open Source" ), 'Heckert GNU white.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Heckert_GNU_white.svg/%dpx-Heckert_GNU_white.svg.png' );
-Category::add(            'osm',      "OpenStreetMap",                     'Openstreetmap logo.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/%dpx-Openstreetmap_logo.svg.png' );
-Category::add(            'glam',   __( "Wikimedia GLAM Program" ),        'GLAM logo.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/GLAM_logo.png/%dpx-GLAM_logo.png' );
-Category::addInitiatives( 'wmch',   __( "Wikimedia CH" ),                  'WikimediaCHLogo.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/WikimediaCHLogo.svg/%dpx-WikimediaCHLogo.svg.png' );
-Category::addInitiatives( 'wbg',    __( "West Bengal Wikimedians" ),       'Logo of West Bengal Wikimedians User Group.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/West_Bengal_Wikimedians_User_Group_logo_square.svg/%dpx-West_Bengal_Wikimedians_User_Group_logo_square.svg.png' );
-Category::addInitiatives( 'wmno',   __( "Wikimedia Norge initiatives" ),   'File:Wikimedia Norge-logo svart nb.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Wikimedia_Norge-logo_nn.svg/%dpx-Wikimedia_Norge-logo_nn.svg.png' );
-Category::addInitiatives( 'wmf',    __( "Wikimedia Foundation" ),          'Wikimedia-logo black.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Wikimedia-logo_black.svg/%dpx-Wikimedia-logo_black.svg.png' );
+Category::addInitiatives( 'com',    __( "Community" ),                     'Wikimedia Community Logo.svg', 'https://upload.wikimedia.org/wikipedia/commons/7/75/Wikimedia_Community_Logo.svg' );
+Category::addInitiatives( 'dat',    __( "Wikidata" ),                      'Wikidata Favicon color.svg', 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Wikidata_Favicon_color.svg' );
+Category::add(            'edu',    __( "Wikimedia Education Program" ),   'WikipediaEduBelow.svg', 'https://upload.wikimedia.org/wikipedia/commons/6/62/WikipediaEduBelow.svg' );
+Category::addInitiatives( 'libre',  __( "Free Software and Open Source" ), 'Heckert GNU white.svg', 'https://upload.wikimedia.org/wikipedia/commons/2/22/Heckert_GNU_white.svg' );
+Category::add(            'osm',      "OpenStreetMap",                     'Openstreetmap logo.svg', 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Openstreetmap_logo.svg' );
+Category::add(            'glam',   __( "Wikimedia GLAM Program" ),        'GLAM logo.png', 'https://upload.wikimedia.org/wikipedia/commons/3/34/2019-01-26_GLAM_logo_black_positive_space.svg' );
+Category::addInitiatives( 'wmch',   __( "Wikimedia CH" ),                  'WikimediaCHLogo.svg', 'https://upload.wikimedia.org/wikipedia/commons/f/fe/WikimediaCHLogo.svg' );
+Category::addInitiatives( 'wbg',    __( "West Bengal Wikimedians" ),       'Logo of West Bengal Wikimedians User Group.svg', 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Logo_of_West_Bengal_Wikimedians_User_Group.svg' );
+Category::addInitiatives( 'wmno',   __( "Wikimedia Norge initiatives" ),   'Wikimedia Norge-logo svart nb.svg', 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Wikimedia_Norge-logo_svart_nb.svg' );
+Category::addInitiatives( 'wmf',    __( "Wikimedia Foundation" ),          'Wikimedia-logo black.svg', 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Wikimedia-logo_black.svg' );
 
 // this should be an alias of libre
 // Category::addInitiatives( 'osi',  __( "Open Source" ),                 'Opensource.svg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/%dpx-Opensource.svg.png' );

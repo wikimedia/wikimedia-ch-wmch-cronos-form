@@ -35,11 +35,9 @@ class Category {
 	private $filename;
 
 	/**
-	 * URL in sprintf format
-	 *
-	 * The %d argument can be replaced with the width in pixels.
+	 * Direct URL to the file on Wikimedia Commons
 	 */
-	private $urlFormat;
+	private $fileurl;
 
 	/**
 	 * All the known categories
@@ -59,13 +57,13 @@ class Category {
 	 * @param string $uid User identifier
 	 * @param string $name Category name
 	 * @param string $filename File name on Wikimedia Commons
-	 * @param string $url_format URL in sprintf format with '%d' that can be sobstituted with the width in pixels
+	 * @param string $fileurl Direct URL to the file on Commons
 	 */
-	public function __construct( $uid, $name, $filename, $url_format ) {
+	public function __construct( $uid, $name, $filename, $fileurl ) {
 		$this->uid = $uid;
 		$this->name = $name;
 		$this->filename = $filename;
-		$this->urlFormat = $url_format;
+		$this->fileurl = $fileurl;
 	}
 
 	/**
@@ -108,17 +106,14 @@ class Category {
 	}
 
 	/**
-	 * Get the image URL
-	 *
-	 * @param $size int You can set the width in pixels
-	 * @return string
-	 */
-	public function getImageURL( $size = 64 ) {
-		return sprintf(
-			$this->urlFormat,
-			$size
-		);
+	* Get the image URL
+	*
+	* @return string
+	*/
+	public function getImageURL() {
+		return $this->fileurl;
 	}
+
 
 	/**
 	 * Add a new Category
@@ -126,10 +121,10 @@ class Category {
 	 * @param string $uid User identifier
 	 * @param string $name Category name
 	 * @param string $filename File name on Wikimedia Commons
-	 * @param string $url_format URL in sprintf format with '%d' that can be sobstituted with the width in pixels
+	 * @param string $fileurl Direct URL to the file on Commons
 	 */
-	public static function add( $uid, $name, $filename, $url_format ) {
-		self::$all[ $uid ] = new self( $uid, $name, $filename, $url_format );
+	public static function add( $uid, $name, $filename, $fileurl ) {
+		self::$all[ $uid ] = new self( $uid, $name, $filename, $fileurl );
 	}
 
 	/**
@@ -138,9 +133,9 @@ class Category {
 	 * @param string $uid User identifier
 	 * @param string $name Category name
 	 * @param string $filename File name on Wikimedia Commons
-	 * @param string $url_format URL in sprintf format with '%d' that can be sobstituted with the width in pixels
+	 * @param string $fileurl Direct URL to the file on Commons
 	 */
-	public static function addInitiatives( $uid, $name, $filename, $url_format ) {
+	public static function addInitiatives( $uid, $name, $filename, $fileurl ) {
 
 		// from 'bla bla'
 		// to 'bla bla initiatives'
@@ -149,7 +144,7 @@ class Category {
 			$name
 		);
 
-		self::add( $uid, $name, $filename, $url_format );
+		self::add( $uid, $name, $filename, $fileurl );
 	}
 
 	/**

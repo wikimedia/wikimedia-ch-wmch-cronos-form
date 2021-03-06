@@ -1,0 +1,8 @@
+.select-dropdown li img {
+  object-fit: contain;
+}
+li.collection-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}

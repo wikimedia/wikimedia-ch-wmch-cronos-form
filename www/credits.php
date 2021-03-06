@@ -17,8 +17,9 @@
 // load the configuration file and autoload classes
 require 'load.php';
 
-// enqueue default stylesheet
+// enqueue default JavaScript and stylesheet
 enqueue_js( 'cronos' );
+enqueue_css( 'cronos' );
 
 template( 'header' );
 ?>
